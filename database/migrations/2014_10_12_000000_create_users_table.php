@@ -37,5 +37,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('email')->references('email')->on('password_resets')->onDelete('set null');
+        });
     }
 };

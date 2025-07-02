@@ -30,7 +30,9 @@ use App\Http\controllers\viewEmployeeController;
 */
 
 // Website or Frontend
-Route::get('/', [FrontendHomeController::class, 'home'])->name('home');
+//Route::get('/', [FrontendHomeController::class, 'home'])->name('home');
+// Login website default
+Route::get('/', [UserController::class, 'login'])->name('admin.login');
 
 // service section
 Route::get('/services', [FrontendHomeController::class, 'service'])->name('services');
