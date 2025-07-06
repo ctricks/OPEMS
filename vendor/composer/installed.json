@@ -8475,6 +8475,7 @@
         "hamcrest/hamcrest-php",
         "laravel/pint",
         "laravel/sail",
+        "laravel/sanctum",
         "mockery/mockery",
         "myclabs/deep-copy",
         "nunomaduro/collision",

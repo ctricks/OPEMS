@@ -39,12 +39,12 @@
                     </div>
                 </td>
                 <td><?php echo e($salary->salary_class); ?></td>
-                <td><?php echo e($salary->basic_salary); ?> BDT</td>
-                <td><?php echo e($salary->medical_expenses); ?> BDT</td>
-                <td><?php echo e($salary->mobile_allowance); ?> BDT</td>
-                <td><?php echo e($salary->houseRent_allowance); ?> BDT</td>
+                <td><?php echo e($salary->basic_salary); ?> PHP</td>
+                <td><?php echo e($salary->medical_expenses); ?> PHP</td>
+                <td><?php echo e($salary->mobile_allowance); ?> PHP</td>
+                <td><?php echo e($salary->houseRent_allowance); ?> PHP</td>
                 <!-- Displaying House Rent Allowance -->
-                <td><?php echo e($totalSalary); ?> BDT</td>
+                <td><?php echo e($totalSalary); ?> PHP</td>
                 <td>
                     <a class="btn btn-success rounded-pill" href="<?php echo e(route('salaryEdit', $salary->id)); ?>"><i
                             class="fa-solid fa-pen-to-square"></i></a>

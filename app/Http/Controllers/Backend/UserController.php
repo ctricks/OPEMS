@@ -11,12 +11,74 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class UserController extends Controller
 {
     public function login()
     {
         return view('admin.pages.AdminLogin.adminLogin');
+    }
+
+    public function loginAPI(Request $request)
+    {
+            // $user = User::where('email',  $request->email)->first();
+            // if (! $user || ! Hash::check($request->password, $user->password) ) //if no email provided 
+            // {
+            //         return response()->json([
+            //             'status' => 'failed',
+            //             'message' => ['Username or password incorrect'],
+            //         ],401);
+            // }
+           
+            //     $user->tokens()->delete();
+
+            //     return response()->json([
+            //         'status' => 'success',
+            //         'message' => 'User logged in successfully',
+            //         'name' => $user->name,
+            //         'token' => $user->createToken('auth_token')->plainTextToken,
+            //     ],200);
+        $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        
+        return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
+        }else
+        {
+               return response()->json([
+                'access_token' => 'Invalid User',
+                'token_type' => 'Bearer',
+            ],401);
+        }
+    }
+
+    public function logoutAPI(Request $request){
+        try{
+            $request->user()->currentAccessToken()->delete();
+           
+                    return response()->json(
+                      [
+                          'status' => 'success',
+                          'message' => 'User logged out successfully'
+                      ],200);
+        }catch(Exception $e)
+        {
+                     return response()->json(
+                      [
+                          'status' => '401',
+                          'message' => $e->getMessage(),
+                      ],500);
+        }
+        
     }
 
     public function loginPost(Request $request)
@@ -47,7 +109,6 @@ class UserController extends Controller
 
     public function logout()
     {
-
         auth()->logout();
         notify()->success('Successfully Logged Out');
         return redirect()->route('admin.login');
