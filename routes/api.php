@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::POST('/loginAPI', [AuthController::class, 'login']);
-Route::post('/logoutAPI', [AuthController::class, 'logout']);
-Route::post('/testAPI', [RawAttendanceController::class, 'testAPI']);
-Route::post('/insertDTR', [RawAttendanceController::class, 'InsertDTR']);
+
+
+    Route::POST('/loginAPI', [AuthController::class, 'login']);
+    Route::post('/logoutAPI', [AuthController::class, 'logout']);
+    Route::post('/testAPI', [RawAttendanceController::class, 'testAPI']);
+    Route::post('/insertDTR', [RawAttendanceController::class, 'InsertDTR']);

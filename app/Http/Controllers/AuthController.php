@@ -19,9 +19,15 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
         
+        $user = auth()->user();
+
+        if ($user) {
+             $user->tokens()->delete();
+        }
+
          $user = User::where('email', $data['email'])->first();
-         $user->tokens()->delete();
-         
+
+
         if (!$user || !Hash::check($data['password'], $user->password)) {
             Auth::guard('sanctum')->user();
             return response([
