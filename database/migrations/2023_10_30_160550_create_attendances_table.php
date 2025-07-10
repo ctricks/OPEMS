@@ -26,13 +26,13 @@ return new class extends Migration
             $table->time('check_in')->nullable();
             $table->string('late')->nullable();
             $table->time('check_out')->nullable();
-            $table->string('overtime')->nullable();
             $table->integer('duration_minutes')->nullable(); // Moved duration_minutes column
+            $table->string('overtime')->nullable();
             $table->timestamps();
         });
 
         // Manually change column position after creating the table
-        DB::statement('ALTER TABLE `attendances` MODIFY COLUMN `duration_minutes` int AFTER `check_out`');
+        //DB::statement('ALTER TABLE `attendances` MODIFY COLUMN `duration_minutes` int AFTER `check_out`');
     }
 
     /**

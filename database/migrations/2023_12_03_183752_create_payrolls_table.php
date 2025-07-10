@@ -26,7 +26,10 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('salary_structure_id')->references('id')->on('salary_structures')->onDelete('cascade');
+            //$table->foreign('employee_id')->references('id')->on('provident_funds')->onDelete('cascade');
         });
+
+        //DB:statement('alter table `payrolls` add constraint `payrolls_employee_id_foreign` foreign key (`employee_id`) references `provident_funds` (`id`) on delete cascade');
     }
 
     /**
