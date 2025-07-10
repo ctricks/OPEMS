@@ -110,4 +110,78 @@ try{
             );
         }
     }
+    public function InsertDTR2(Request $request)
+    {
+        
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'employee_id' => 'required',
+            'select_date' => 'required',
+            'month'=>'required',
+            'check_in' => 'required|date_format:H:i',
+            'check_out' => 'required|date_format:H:i|after:check_in',
+            'DataSource' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json(['error' => 'Data Entry is invalid'], 401);
+        }
+        
+try{
+
+        $dtrExists = RawAttendance::where('employee_id',$request->employee_id)
+                                    ->where('select_date',$request->select_date)
+                                    ->first();
+
+        if($dtrExists == null)
+        {
+            $dtr = RawAttendance::create([
+                'name' => $request->name,
+                'employee_id' => $request->employee_id,
+                'select_date' => $request->select_date,
+                'month' => $request->month,
+                'check_in' => $request->check_in,
+                'check_out' => $request->check_out,
+                'DataSource' => $request->DataSource,
+            ]);
+        //If insert correctly
+        return response()->json(
+                [
+                    "msg"=>'Inserted Successfully',
+                    "status"=>200        
+                ],200
+            );
+        }else
+        {
+            //if Exists Update the record
+            $dtrExists->update(
+                [
+                    'name' => $request->name,
+                    'employee_id' => $request->employee_id,
+                    'select_date' => $request->select_date,
+                    'month' => $request->month,
+                    'check_in' => $request->check_in,
+                    'check_out' => $request->check_out,
+                    'DataSource' => $request->DataSource,
+                ]
+            );
+
+
+            return response()->json(
+                [
+                    "msg"=>'Updated Successfully',
+                    "status"=>200        
+                ],200
+            );
+        }
+        }catch(exception $e)
+        {
+             return response()->json(
+                [
+                    "msg"=>'Error:'->$e->getMessage(),
+                    "status"=>401        
+                ],401
+            );
+        }
+    }
 }

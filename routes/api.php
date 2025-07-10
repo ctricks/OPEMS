@@ -26,3 +26,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/logoutAPI', [AuthController::class, 'logout']);
     Route::post('/testAPI', [RawAttendanceController::class, 'testAPI']);
     Route::post('/insertDTR', [RawAttendanceController::class, 'InsertDTR']);
+    Route::post('/insertDTR2', [RawAttendanceController::class, 'InsertDTR2']);
