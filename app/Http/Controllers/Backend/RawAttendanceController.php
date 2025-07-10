@@ -55,16 +55,21 @@ class RawAttendanceController extends Controller
         
 try{
 
-        $dtr = RawAttendance::create([
-            'name' => $request->name,
-            'employee_id' => $request->employee_id,
-            'select_date' => $request->select_date,
-            'month' => $request->month,
-            'check_in' => $request->check_in,
-            'check_out' => $request->check_out,
-            'DataSource' => $request->DataSource,
-        ]);
+        $dtrExists = RawAttendance::where('employee_id',$request->employee_id)
+                                    ->where('select_date',$request->select_date)
+                                    ->first();
 
+        if($dtrExists == null)
+        {
+            $dtr = RawAttendance::create([
+                'name' => $request->name,
+                'employee_id' => $request->employee_id,
+                'select_date' => $request->select_date,
+                'month' => $request->month,
+                'check_in' => $request->check_in,
+                'check_out' => $request->check_out,
+                'DataSource' => $request->DataSource,
+            ]);
         //If insert correctly
         return response()->json(
                 [
@@ -72,6 +77,29 @@ try{
                     "status"=>200        
                 ],200
             );
+        }else
+        {
+            //if Exists Update the record
+            $dtrExists->update(
+                [
+                    'name' => $request->name,
+                    'employee_id' => $request->employee_id,
+                    'select_date' => $request->select_date,
+                    'month' => $request->month,
+                    'check_in' => $request->check_in,
+                    'check_out' => $request->check_out,
+                    'DataSource' => $request->DataSource,
+                ]
+            );
+
+
+            return response()->json(
+                [
+                    "msg"=>'Updated Successfully',
+                    "status"=>200        
+                ],200
+            );
+        }
         }catch(exception $e)
         {
              return response()->json(
